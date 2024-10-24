@@ -3,13 +3,13 @@ import json
 from config import key, shows
 
 
-searching = False
+searching = True
 lookup = "omdbid"  # omdbid
-show_type = "series"
+show_type = "movie"
 
 for show in shows:
     if searching:
-        url = f"http://www.omdbapi.com/?s={show}&apikey={key}&type=series"
+        url = f"http://www.omdbapi.com/?s={show}&apikey={key}&type={show_type}"
         response = requests.get(url)
         c = json.loads(response.content)
 
@@ -21,7 +21,7 @@ for show in shows:
                 print("LIMIT REACHED")
                 break
 
-        search = c.get("Search", [])
+        search = c.get("Search", [{}])
         title = search[0].get('Title', '')
         imdbid = search[0].get('imdbID', '-1')
         show_type = search[0].get('Type', '')
